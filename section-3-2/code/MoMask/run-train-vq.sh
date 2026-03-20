@@ -1,0 +1,1 @@
+python train_vq.py --is_continue --name new_rvq_retraining_full --gpu_id 1 --dataset_name t2m --batch_size 256 --num_quantizers 6 --max_epoch 50 --quantize_dropout_prob 0.2 --gamma 0.05

@@ -1,0 +1,2 @@
+Comando per estrarre i file del dataset
+tar -xvjf file.tar.bz2

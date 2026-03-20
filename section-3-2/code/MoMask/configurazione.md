@@ -1,0 +1,21 @@
+## Configurazione
+
+- Impostare Python alla versione 3.10
+- Creare un ambiente virtuale
+- Impostare l'ambiente virtuale creato
+- Installare le dipendenze
+  - Installa con il comando `pip install wheel`
+  - Dipendenze nel file `requirements.txt`
+  - Installa `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
+- Scaricare i checkpoints
+  - Crea una cartella `checkpoints` nella root del progetto
+  - Scaricare i modelli dal link [Google Drive](https://drive.google.com/drive/folders/1sHajltuE2xgHh91H9pFpMAYAkHaX9o57)
+  - Spostare i file zippati nella cartella `checkpoints` ed estraili
+- Scarica Glove
+  - Scarica la cartella zippata dal link [Google Drive](https://drive.google.com/file/d/1cmXKUT31pqd7_XpJAiWEo1K81TMYHA5n/view?usp=sharing)
+  - Unzippa la cartella zippata nella root del progetto
+- Usa il file `copy_custom_data.py` per copiare tutti i file del dataset processati
+- Avvio
+  - `run.sh` permette di svolgere inferenza
+  - `run-train-vq.sh`, `run-train-t2m.sh` e `run-train-res.sh` permettono l'avvio del retraining (se il flag `--is_continue`) non viene inserito, oppure del finetuning (nel caso il flag `--is_continue` sia presente). I file lavorano, rispettivamente, sul tokenizer, M-Trasformer e R-Trasformer
+  - `run-eval-t2m-vq.sh` e `run-eval-t2m-trans-res.sh` svolgono l'evaluation dei modelli. I file lavorano, rispettivamente, sul tokenizer e su entrambi i trasformer
