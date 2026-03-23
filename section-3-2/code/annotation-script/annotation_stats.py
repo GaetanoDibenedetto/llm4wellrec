@@ -18,4 +18,4 @@ if __name__ == "__main__":
                 lines = list(map(lambda l: l.strip().replace("\n", ""), fptr.readlines()))
                 line_length.extend([len(l) for l in lines])
 
-    print(f"Media lunghezza: {stat}")
+    print(f"Mean Len: {stat}")

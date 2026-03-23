@@ -234,7 +234,7 @@ def normalize_annotations_video_name(annotation: Annotation) -> Annotation:
     return annotation
 
 def clear(folder: str):
-        shutil.rmtree(folder)
+    shutil.rmtree(folder)
 
 
 def dm_median(annotations: list[Annotation]) -> float:
