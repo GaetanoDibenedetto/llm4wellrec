@@ -22,9 +22,24 @@ Because standard datasets like HumanML3D are omnidirectional MoCap, we construct
 
 - 3D poses were extracted from monocular video using [SMPLer-X](https://github.com/MotrixLab/SMPLer-X);
 - To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain):
+  - Generate the annotations for the **SAFELIFT** dataset using the code inside the `section-3-2/code/annotation-script` folder;
+  - Use SMPLer-X for the extraction of 3D poses;
+  - After configuring the MoMask project, it is possible to proceed with the fine-tuning of the model by executing the following Bash scripts:
+
   ```bash
-  python ...
+  # run-train-t2m.sh: Run the finetuning process for the M-Trasformer
+  python train_t2m_transformer.py --is_continue --name t2m_nlayer8_nhead6_ld384_ff1024_cdp0.1_rvq6ns --gpu_id 0 --dataset_name t2m --batch_size 10 --max_epoch 514 --vq_name rvq_nq6_dc512_nc512_noshare_qdp0.2
   ```
+
+  ```bash
+  # run-train-res.sh: Run the finetuning process for the R-Trasformer
+  python train_res_transformer.py --is_continue --name tres_nlayer8_ld384_ff1024_rvq6ns_cdp0.2_sw --gpu_id 0 --dataset_name t2m --batch_size 10 --max_epoch 490 --vq_name rvq_nq6_dc512_nc512_noshare_qdp0.2 --cond_drop_prob 0.2 --share_weight
+  ```
+
+- Techinal Aspects:
+  - The retraining process was carried out over 150 epochs using an NVIDIA RTX 3090 GPU with 24 GB of VRAM, requiring approximately 15 days of computation;
+  - The fine-tuning process was performed directly on the original model checkpoints, extending training by an additional 50 epochs. This stage was
+    carried out on an NVIDIA GTX Titan X GPU equipped with 12 GB of VRAM, with a total computation time of approximately six hours.
 
 ### 📝 Dataset Annotation Process
 
