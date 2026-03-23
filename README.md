@@ -20,7 +20,7 @@ To reproduce the zero-shot quantitative evaluation:
 
 Because standard datasets like HumanML3D are omnidirectional MoCap, we constructed a custom dataset of occupational lifting scenarios starting from [SAFELIFT](https://github.com/GaetanoDibenedetto/IUI26) videos. We augmented this data using horizontal flipping, resulting in 578 occupational lifting poses and 2,312 textual descriptions.
 
-- 3D poses were extracted from monocular video using SMPLer-X.
+- 3D poses were extracted from monocular video using [SMPLer-X](https://github.com/MotrixLab/SMPLer-X);
 - To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain):
   ```bash
   python ...
