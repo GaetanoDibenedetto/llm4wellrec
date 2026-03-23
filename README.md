@@ -32,10 +32,12 @@ As noted in the paper, standard HumanML3D annotations are highly descriptive (av
 
 Here is how the 2,312 text-motion pairs were generated (4 descriptions per pose):
 
-1. **Automated Extraction:** [Briefly explain here how you extracted the text—e.g., "We used a deterministic Natural Language Generation template based on the calculated RNLE variables like Horizontal distance and Vertical height."]
-2. **Template Variations:** For each extracted 3D posture, we generated 4 semantic variations to create the text-motion pairs.
+1. **Automated Extraction:** Broadly speaking, we prepared a set of templates for our annotations. The annotations are sourced from a JSON file, where each entry contains metadata associated with a lifting action recorded in a video, including the subject's demographic information, the sizes of a box being moved and the initial and final positions of the handled object;
+2. **Template Variations:** For each extracted 3D posture, four semantic variations were generated to construct the text-motion pairs. These variations capture the direction of the movement, the gender of the subject, a combination of both, and an ergonomic assessment derived from the vertical displacement of the handled object;
 3. **Example Annotations:**
-   - _Description 1 (Direct):_ "A worker lifting a box from the floor."
-   - _Description 2 (Safety-focused):_ "A person safely lifting a load with a straight spine."
-   - _Description 3 (Metric-based):_ "Worker lifting a 15kg load close to the body core."
-   - _Description 4 (Action-oriented):_ "Bending the knees to lift an object from the ground."
+   - _Description 1 (Direction):_ "a person is lifting a box from the ground."
+   - _Description 2 (Gender):_ "a man is moving something, with both hands."
+   - _Description 3 (Direction and Gender):_ "a man is picking up something, with both hands."
+   - _Description 4 (Ergonomic Assessment):_ "a person is moving a box to a slightly higher position."
+
+You can find the full implementation inside the `section-3-2/code/annotation-script` folder.
