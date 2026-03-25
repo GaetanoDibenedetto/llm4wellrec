@@ -24,7 +24,8 @@ Because standard datasets like HumanML3D are omnidirectional MoCap, we construct
 - To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain):
   - Generate the annotations for the **SAFELIFT** dataset using the code inside the `section-3-2/code/annotation-script` folder;
   - Use SMPLer-X for the extraction of 3D poses;
-  - After configuring the MoMask project, it is possible to proceed with the fine-tuning of the model by executing the following Bash scripts:
+  - After configuring the [HumanML3D project](https://github.com/EricGuo5513/HumanML3D), process the previously extracted 3D poses in order to generate the motion representations required for training;
+  - After configuring the [MoMask project](https://github.com/EricGuo5513/momask-codes), it is possible to proceed with the fine-tuning of the model by executing the following Bash scripts:
 
   ```bash
   # run-train-t2m.sh: Run the finetuning process for the M-Trasformer
@@ -39,7 +40,7 @@ Because standard datasets like HumanML3D are omnidirectional MoCap, we construct
 - Techinal Aspects:
   - The retraining process was carried out over 150 epochs using an NVIDIA RTX 3090 GPU with 24 GB of VRAM, requiring approximately 15 days of computation;
   - The fine-tuning process was performed directly on the original model checkpoints, extending training by an additional 50 epochs. This stage was
-    carried out on an NVIDIA GTX Titan X GPU equipped with 12 GB of VRAM, with a total computation time of approximately six hours.
+    carried out on an NVIDIA GTX Titan X GPU equipped with 12 GB of VRAM, with a total computation time of approximately 6 hours.
 
 ### 📝 Dataset Annotation Process
 
