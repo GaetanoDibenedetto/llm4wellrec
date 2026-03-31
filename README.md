@@ -42,8 +42,8 @@ Each extracted 3D pose in our [annotations](section-3-2/code/annotation-script/a
    - _Example:_ "a man is picking up something, with both hands."
    
 4. **Ergonomic Assessment using RNLE variables (`format_with_niosh`):** Translates complex biomechanical variables into natural language by leveraging the **Distance Multiplier (DM)** from the **Revised NIOSH Lifting Equation (RNLE)**. 
-   - First, the absolute vertical displacement (`d_factor`) is calculated and clamped within standard NIOSH boundaries ($25 \text{ cm} \le D \le 175 \text{ cm}$).
-   - The Distance Multiplier is computed using the formula $DM = 0.82 + (4.5 / \text{d\_factor})$.
+   - First, the absolute vertical displacement (`D`) is calculated and clamped within standard NIOSH boundaries ($25 \text{ cm} \le D \le 175 \text{ cm}$).
+   - The Distance Multiplier is computed using the formula $DM = 0.82 + (4.5 / D)$.
    - The action's specific $DM$ is then compared against the median $DM$ computed across the entire dataset. This relative comparison dictates a quantitative modifier ("slightly" or "much"), which is paired with the direction of the movement ("higher" or "lower") to form the final phrase.
    - _Example:_ "a person is moving a box to a slightly higher position."
 
