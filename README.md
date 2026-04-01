@@ -27,7 +27,7 @@ As noted in the paper, standard HumanML3D annotations are highly descriptive (av
 You can find the implementation for generating these annotations in the `section-3-2/code/annotation-script` folder. To run the automated script (`build_prompts.py`):
 
 1. Ensure Python 3.10 is installed.
-2. Create and enable a virtual environment (e.g., `.venv`) and install dependencies via `pip install -r requirements.txt` command.
+2. Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command.
 3. The script extracts metadata from a JSON file and outputs the generated text prompts and different CSV files mapping each video to its texts. Each CSV file is associated with a specific environment and stores the following data:
    - The path to the video file;
    - The subject's gender;
@@ -55,23 +55,31 @@ To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain
 
 1. Generate the annotations for the **SAFELIFT** dataset using the steps above.
 2. Pose Extraction:
-   - Follow the instruction guide from the official [SMPLer-X](https://github.com/MotrixLab/SMPLer-X) repository;
+   - Set up SMPLer-X:
+     - Follow the installation guide provided by their [Github repository](https://github.com/MotrixLab/SMPLer-X). This should be created as a separate project and saved inside the `section-3-2/code/smpler-x/` folder;
+   - After installing SMPLer-X, you need to set up a dedicated virtual environment for the `section-3-2/code/smpler-x/merge.py` utility script. This is designed to simplify the execution of SMPLer-X and ensure its output files are compatible with the HumanML3D pipeline:
+     - Ensure Python 3.10 version is installed;
+     - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
+     - When running the script, the following optional command-line arguments can be provided:
+       - `--input_path`: Absolute path to the folder containing the input videos. By default it's set to `/smplerx_inference/vid_input`;
+       - `--output_path`: Absolute path to the folder where the final output files will be saved. By default it's set to `/smplerx_inference/vid_output`;
+       - `--temp_path`: Absolute path to the folder used for storing intermediate temporary files created during processing. By default, it's set to `/smplerx_inference/temp_output`.
 3. HumanML3D:
    - Ensure Python 3.8.20 is installed;
-   - Create and enable a virtual environment (e.g., `.venv`) and install dependencies via `pip install -r requirements.txt` command;
+   - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
    - Install the `en_core_web_sm` model with the command `python -m spacy download en_core_web_sm`. This is used for process all the annotations generated in the previous step;
    - Follow the AMASS dataset installation instructions in the `section-3-2/code/HumanML3D/raw_pose_processing.ipynb` file;
-   - To obtain the AMASS dataset's annotations, download the zipped folder texts.zip from the [original repository](https://github.com/EricGuo5513/HumanML3D/blob/main/HumanML3D/texts.zip). Once downloaded, move it inside the `section-3-2/code/HumanML3D/HumanML3D` folder and unzip it;
+   - To obtain the AMASS dataset's annotations, download the zipped folder `texts.zip` from the [original repository](https://github.com/EricGuo5513/HumanML3D/blob/main/HumanML3D/texts.zip). Once downloaded, move it inside the `section-3-2/code/HumanML3D/HumanML3D` folder and unzip it;
    - To obtain the HumanAct12 dataset poses, download the zipped folder `humanact12.zip` from the [original repository](https://github.com/EricGuo5513/HumanML3D/blob/main/pose_data/humanact12.zip). Once downloaded, move it inside the `section-3-2/code/HumanML3D/pose_data` folder and unzip it;
-   - After preparing the entire project, run the following files:
-     - `section-3-2/code/HumanML3D/raw_pose_processing.ipynb`;
-     - `section-3-2/code/HumanML3D/motion_representation.ipynb`;
-     - `section-3-2/code/HumanML3D/cal_mean_variance.ipynb`;
+   - After preparing the entire project, you can run the following files:
+     - `section-3-2/code/HumanML3D/raw_pose_processing.ipynb`
+     - `section-3-2/code/HumanML3D/motion_representation.ipynb`
+     - `section-3-2/code/HumanML3D/cal_mean_variance.ipynb`
      - `text_process.py`
 
 4. MoMask:
    - Ensure Python 3.10 is installed;
-   - Create and enable a virtual environment (e.g., `.venv`) and install dependencies via `pip install -r requirements.txt` command;
+   - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
    - In addition, you need to install `wheel` by running `pip install wheel` command, as well as PyTorch, based on your CUDA version; for instance, if you have CUDA v11.8 you can use the following command:
 
    ```bash
