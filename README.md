@@ -88,7 +88,7 @@ To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain
 
    - Checkpoints
      - Create the `section-3-2/code/MoMask/checkpoints` folder;
-     - Download MoMask's models using the following [instructions](https://github.com/EricGuo5513/momask-codes?tab=readme-ov-file#optional-download-manually);
+     - Download MoMask's models and evaluators, using the following [instructions](https://github.com/EricGuo5513/momask-codes?tab=readme-ov-file#optional-download-manually). You can download all the components from their Google Drive link;
      - Move the downloaded files inside the `section-3-2/code/MoMask/checkpoints` folder and unziup them;
      - Download Glove by following the Google Drive link found inside the the `section-3-2/code/MoMask/prepare/download_glove.sh` file, and unzip the downloaded file inside MoMask's root folder;
    - Run `copy_custom_data.py` script to copy all the processed dataset files.
