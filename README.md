@@ -80,7 +80,7 @@ To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain
 4. MoMask:
    - Ensure Python 3.10 is installed;
    - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
-   - In addition, you need to install `wheel` by running `pip install wheel` command, as well as PyTorch, based on your CUDA version; for instance, if you have CUDA v11.8 you can use the following command:
+   - In addition, you need to install `wheel`, by running the `pip install wheel` command, as well as PyTorch, based on your CUDA version; for instance, if you have CUDA v11.8 you can use the following command:
 
    ```bash
    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
