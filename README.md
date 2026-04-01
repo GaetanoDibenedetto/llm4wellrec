@@ -25,23 +25,25 @@ Because standard datasets like HumanML3D are omnidirectional MoCap, we construct
 As noted in the paper, standard HumanML3D annotations are highly descriptive (averaging 12 words) and capture micro-actions. In contrast, our occupational annotations were generated via an automated process, resulting in shorter (averaging 9.25 words) and more repetitive descriptions tailored to safety constraints.
 
 You can find the implementation for generating these annotations in the `section-3-2/code/annotation-script` folder. To run the automated script (`build_prompts.py`):
+
 1. Ensure Python 3.10 is installed.
-2. Create and enable a virtual environment (e.g., `.venv`) and install dependencies via `pip install -r requirements.txt`.
-3. The script extracts metadata from a JSON file and outputs the generated text prompts and a CSV file mapping each video to its texts.
+2. Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command.
+3. The script extracts metadata from a JSON file and outputs the generated text prompts and different CSV files mapping each video to its texts. Each CSV file is associated with a specific environment and stores the following data:
+   - The path to the video file;
+   - The subject's gender;
+   - The path to the annotation file;
+   - The path to the annotation file corresponding to the mirrored version of the video.
 
 **How Text-Motion Pairs were Created:**
 Each extracted 3D pose in our [annotations](section-3-2/code/annotation-script/annotations.json) relies on metadata capturing demographic information (gender, age), box dimensions, and initial/final handled object positions. For each pose, the script generates four semantic variations (yielding 2,312 text-motion pairs) along with mirrored equivalents (`M*.txt`):
 
 1. **Direction Description (`format_with_direction`):** Determines the primary action by comparing the initial (`height_start`) and final (`height_end`) vertical positions of the box. If the final height is equal to or greater than the starting height, the action is classified as a "lifting" motion "from the ground". Otherwise, it is classified as a "laying" motion "on the ground".
    - _Example:_ "a person is lifting a box from the ground."
-   
 2. **Gender Description (`format_with_gender`):** Focuses exclusively on the demographic attribute of the subject based on the `subject_gender` metadata. To add linguistic variance, it abstracts the handled object to a generic "something" and explicitly denotes the bimanual nature of the task ("with both hands").
    - _Example:_ "a man is moving something, with both hands."
-   
 3. **Gender + Action Description (`format_with_gender_and_action`):** Combines the components of the previous two variations. It incorporates the subject's gender and adapts the verb depending on the vertical displacement vector ("picking up" for upwards motion, "putting down" for downwards motion).
    - _Example:_ "a man is picking up something, with both hands."
-   
-4. **Ergonomic Assessment using RNLE variables (`format_with_niosh`):** Translates complex biomechanical variables into natural language by leveraging the **Distance Multiplier (DM)** from the **Revised NIOSH Lifting Equation (RNLE)**. 
+4. **Ergonomic Assessment using RNLE variables (`format_with_niosh`):** Translates complex biomechanical variables into natural language by leveraging the **Distance Multiplier (DM)** from the **Revised NIOSH Lifting Equation (RNLE)**.
    - First, the absolute vertical displacement (`D`) is calculated and clamped within standard NIOSH boundaries ($25 \text{ cm} \le D \le 175 \text{ cm}$).
    - The Distance Multiplier is computed using the formula $DM = 0.82 + (4.5 / D)$.
    - The action's specific $DM$ is then compared against the median $DM$ computed across the entire dataset. This relative comparison dictates a quantitative modifier ("slightly" or "much"), which is paired with the direction of the movement ("higher" or "lower") to form the final phrase.
@@ -52,9 +54,48 @@ Each extracted 3D pose in our [annotations](section-3-2/code/annotation-script/a
 To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain):
 
 1. Generate the annotations for the **SAFELIFT** dataset using the steps above.
-2. Extract 3D poses from the monocular videos using [SMPLer-X](https://github.com/MotrixLab/SMPLer-X).
-3. Configure the [HumanML3D project](https://github.com/EricGuo5513/HumanML3D) within `section-3-2/code/HumanML3D`, and process the extracted 3D poses to generate the motion representations required for training.
-4. Configure the [MoMask project](https://github.com/EricGuo5513/momask-codes) within `section-3-2/code/MoMask`.
+2. Pose Extraction:
+   - Set up SMPLer-X:
+     - Follow the installation guide provided by their [Github repository](https://github.com/MotrixLab/SMPLer-X). This should be created as a separate project and saved inside the `section-3-2/code/smpler-x/` folder;
+   - After installing SMPLer-X, you need to set up a dedicated virtual environment for the `section-3-2/code/smpler-x/merge.py` utility script. This is designed to simplify the execution of SMPLer-X and ensure its output files are compatible with the HumanML3D pipeline:
+     - Ensure Python 3.10 version is installed;
+     - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
+     - When running the script, the following optional command-line arguments can be provided:
+       - `--input_path`: Absolute path to the folder containing the input videos. By default it's set to `/smplerx_inference/vid_input`;
+       - `--output_path`: Absolute path to the folder where the final output files will be saved. By default it's set to `/smplerx_inference/vid_output`;
+       - `--temp_path`: Absolute path to the folder used for storing intermediate temporary files created during processing. By default, it's set to `/smplerx_inference/temp_output`.
+3. HumanML3D:
+   - Ensure Python 3.8.20 is installed;
+   - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
+   - Install the `en_core_web_sm` model with the command `python -m spacy download en_core_web_sm`. This is used for process all the annotations generated in the previous step;
+   - Follow the AMASS dataset installation instructions in the `section-3-2/code/HumanML3D/raw_pose_processing.ipynb` file;
+   - To obtain the AMASS dataset's annotations, download the zipped folder `texts.zip` from the [original repository](https://github.com/EricGuo5513/HumanML3D/blob/main/HumanML3D/texts.zip). Once downloaded, move it inside the `section-3-2/code/HumanML3D/HumanML3D` folder and unzip it;
+   - To obtain the HumanAct12 dataset poses, download the zipped folder `humanact12.zip` from the [original repository](https://github.com/EricGuo5513/HumanML3D/blob/main/pose_data/humanact12.zip). Once downloaded, move it inside the `section-3-2/code/HumanML3D/pose_data` folder and unzip it;
+   - After preparing the entire project, you can run the following files:
+     - `section-3-2/code/HumanML3D/raw_pose_processing.ipynb`
+     - `section-3-2/code/HumanML3D/motion_representation.ipynb`
+     - `section-3-2/code/HumanML3D/cal_mean_variance.ipynb`
+     - `text_process.py`
+
+4. MoMask:
+   - Ensure Python 3.10 is installed;
+   - Create and enable a virtual environment (e.g. `.venv`) and install dependencies via `pip install -r requirements.txt` command;
+   - In addition, you need to install `wheel`, by running the `pip install wheel` command, as well as PyTorch, based on your CUDA version; for instance, if you have CUDA v11.8 you can use the following command:
+
+   ```bash
+   pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+   ```
+
+   - Checkpoints
+     - Create the `section-3-2/code/MoMask/checkpoints` folder;
+     - Download MoMask's models and evaluators, using the following [instructions](https://github.com/EricGuo5513/momask-codes?tab=readme-ov-file#optional-download-manually). You can download all the components from their Google Drive link;
+     - Move the downloaded files inside the `section-3-2/code/MoMask/checkpoints` folder and unziup them;
+     - Download Glove by following the Google Drive link found inside the the `section-3-2/code/MoMask/prepare/download_glove.sh` file, and unzip the downloaded file inside MoMask's root folder;
+   - Run `copy_custom_data.py` script to copy all the processed dataset files.
+   - Run MoMask:
+     - `section-3-2/code/MoMask/run.sh` is used to perform inference
+     - `section-3-2/code/MoMask/run-train-vq.sh`, `section-3-2/code/MoMask/run-train-t2m.sh`, and `section-3-2/code/MoMask/run-train-res.sh` are used to start retraining (if the `--is_continue` flag is not provided), or fine-tuning (if the `--is_continue` flag is provided). These bash scripts operate respectively on the tokenizer, M-Transformer, and R-Transformer.
+
 5. Proceed with fine-tuning the model by executing the following Bash scripts:
 
    ```bash
@@ -68,5 +109,6 @@ To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain
    ```
 
 **Technical Aspects:**
+
 - The retraining process was carried out over 150 epochs using an NVIDIA RTX 3090 GPU with 24 GB of VRAM, requiring approximately 15 days of computation.
 - The fine-tuning process was performed directly on the original model checkpoints, extending training by an additional 50 epochs. This stage was carried out on an NVIDIA GTX Titan X GPU equipped with 12 GB of VRAM, with a total computation time of approximately 6 hours.
