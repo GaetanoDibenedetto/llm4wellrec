@@ -8,13 +8,26 @@ by _Gaetano Dibenedetto, Stefano Labianca, Andrea Romano, and Pasquale Lops_.
 
 ## 📊 Phase 1: Zero-Shot Evaluation
 
-To reproduce the zero-shot quantitative evaluation:
+This phase evaluates the baseline capabilities of pre-trained text-to-motion models without any domain-specific fine-tuning. We specifically benchmark the models on an **overhead reaching task** to test their ability to interpret and generate biomechanically accurate postures.
 
-- The progressive prompting strategies (Qualitative, Direct Quantitative, and Relative Anatomical) are located in `data/prompts/`.
-- Run the evaluation script to test the models on the overhead reaching task and calculate the Mean Absolute Error (MAE) and Mean Relative Error (MRE):
-  ```bash
-  python ...
-  ```
+### Evaluated Models
+We evaluate three representative architectures covering different generative approaches:
+- [MotionGPT-3](https://github.com/OpenMotionLab/MotionGPT3).
+- [FineMoGen](https://github.com/MotrixLab/FineMoGen).
+- [MoMask](https://github.com/EricGuo5513/momask-codes).
+
+### Prompting Strategies
+To test how these models process ergonomic control, we utilize three progressive prompting strategies, all located in `data/prompts/`:
+- **Qualitative Baseline**: Uses natural language descriptions without any quantitative constraints to establish baseline behavior. Example: "A person reaches up to grab an object from a shelf above head height".
+- **Direct Quantitative Specifications (Metric)**: Enriches prompts with explicit metric values. Example: "A person reaches up 30 cm above head height to grab an object from a shelf".
+- **Relative Anatomical References (Anatomical)**: Substitutes abstract numbers with bodily proportions that map to similar distances. Example: "A person reaches approximately one forearm's length above head".
+
+### Biomechanical Verification
+To measure geometric accuracy, 3D kinematic parameters are extracted directly from the output sequences using the following procedure:
+- The head height at rest is estimated from the initial frame of the generated sequence.
+- The maximum height reached by the wrist joints is tracked across the entire temporal sequence.
+- The relative reaching distance is calculated using the formula $d = h_{wrist_{max}} - h_{head_{rest}}$.
+- The generated distance is then compared against the target specified in the prompt to calculate the Mean Absolute Error (MAE) and Mean Relative Error (MRE).
 
 ## 🏋️ Phase 2: Domain Adaptation & Custom Dataset
 
