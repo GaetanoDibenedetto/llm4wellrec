@@ -1,3 +1,18 @@
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+<a href="https://zenodo.org/records/18243098"><img src="https://img.shields.io/badge/Dataset-Zenodo-darkgreen"/></a>
+<a href="pdf/Dibenedetto___llm4wellrec.pdf"><img src="https://img.shields.io/badge/Paper-PDF-blue"/></a>
+<!-- <a href="pdf/poster.pdf"><img src="https://img.shields.io/badge/Poster-PDF-red"/></a> -->
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+
+
 # Evaluating Generative Text-to-Motion for Occupational Wellbeing Recommender Systems
 
 This repository contains the official implementation, technical details, scripts, and additional visualizations for the paper:
