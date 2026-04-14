@@ -138,10 +138,10 @@ To run the fine-tuning pipeline for MoMask (either Task-Specific or Mixed-Domain
 
 ## 📱 User Study System Interface
 
-Here are shown an example of the interface used in the user study (specificly Phase 2.)
+Here is an example of the interface used in the user study (specifically Phase 2).
 
 <p align="center">
   <img src="finetuning/media/web-table-view.jpg" alt="Web Tablet View" width="60%"/>
   &nbsp;
-  <img src="finetuning/media/web-phone-view.jpg" alt="Web Phone View" width="25%"/>
+  <img src="finetuning/media/web-phone-view.jpg" alt="Web Phone View" width="29%"/>
 </p>
