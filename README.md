@@ -17,7 +17,7 @@ This work is licensed under a
 
 This repository contains the official implementation, technical details, scripts, and additional visualizations for the paper:
 **Evaluating Generative Text-to-Motion for Occupational Wellbeing Recommender Systems**
-by _Gaetano Dibenedetto, Stefano Labianca, Andrea Romano, and Pasquale Lops_.
+by _Gaetano Dibenedetto, Stefano Labianca, Marco Polignano, and Pasquale Lops_.
 
 <p align="center">
   <img src="finetuning/media/animation.gif" alt="Text-to-Motion Animation" width="300"/>
